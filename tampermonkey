@@ -1,0 +1,59 @@
+// ==UserScript==
+// @name         АвтоПокупка WAX
+// @namespace    http://tampermonkey.net/
+// @version      3.0
+// @description  suck my d1ck
+// @author       Jkmat032
+// @match        *://*/*
+// @grant        none
+// ==/UserScript==
+
+
+window.onload =(function () {
+
+    setTimeout(function() {
+                          document.getElementsByClassName("recaptcha-checkbox-checkmark")[0].click();
+                          document.getElementsByClassName("rc-button goog-inline-block")[0].click();
+                          },42);
+
+    var StartBuy = function()
+    {
+        document.getElementById('btnABS').disabled = true;
+
+        (function Buying()
+        {
+            if(document.getElementsByClassName("btn btn-primary btn-block")[0].disabled != true)
+            {
+                document.getElementsByClassName("btn btn-primary btn-block")[0].click(); // клик на покупку
+
+                if(document.getElementsByClassName("btn btn-primary btn-block")[1]!=null)
+                {
+                    (function Payment()
+                    {
+                        document.getElementsByClassName("btn btn-primary btn-block")[1].click(); // клик wax покупку
+                        if(document.getElementsByClassName("btn btn-primary btn-block")[1]!=null)
+                            setTimeout(Payment, 380);
+                        else
+                            return;
+                    })();
+                }
+                return;
+            }
+            setTimeout(Buying, 8);
+        })();
+    };
+
+    var CreateButton = function(){
+
+        var createdBut = document.createElement('button');
+        createdBut.innerHTML = 'Включить автопокупку';
+        createdBut.id = 'btnABS';
+        createdBut.style.background="#ED760E";
+
+        document.documentElement.getElementsByTagName("BUTTON")[0].insertAdjacentHTML('afterEnd', createdBut.outerHTML);
+        document.getElementById('btnABS').onclick = StartBuy;
+
+
+    }();
+
+})();
